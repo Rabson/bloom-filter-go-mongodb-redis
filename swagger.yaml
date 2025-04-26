@@ -1,0 +1,69 @@
+openapi: 3.0.0
+info:
+  title: Username Check API
+  version: 1.0.0
+  description: API for checking username availability using a Bloom filter and MongoDB.
+paths:
+  /check-username:
+    post:
+      summary: Check if a username is available
+      requestBody:
+        description: Desired username to check
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: desired_username
+      responses:
+        200:
+          description: Username availability result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                    example: true
+  /create-username:
+    post:
+      summary: Register a new username if available
+      requestBody:
+        description: Username to register
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: new_username
+      responses:
+        200:
+          description: Username successfully registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Username registered successfully"
+        409:
+          description: Username already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Username already exists"
+        500:
+          description: Internal server error
